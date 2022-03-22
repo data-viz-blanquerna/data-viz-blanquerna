@@ -28,7 +28,29 @@
   <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
+ <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .apple-popup .mapboxgl-popup-content {
+        background-color:rgba(0,0,0,0.65);
+        color: #E7E7E7;
+        font-family: "Lucida Console", Monaco, monospace;
+      }
+
+      .apple-popup .mapboxgl-popup-tip {
+        border-top-color: yellow;
+      }
+    </style>
 <body>
    
   
@@ -147,67 +169,54 @@
          
             
       </div>
-            <script>
-              mapboxgl.accessToken = 'pk.eyJ1IjoibGF1cmFuYXZhcnJvIiwiYSI6ImNrZzBwNzA1eDBqYzUzMnFpemRzZGc1c3MifQ.ftDfRnXbx1RzDaZAOkC3tg';
-              var map = new mapboxgl.Map({
-                container: 'map', // Specify the container ID
-                style: 'mapbox://styles/lauranavarro/ckqz4ohbfbp7r19n2sto3dccn', // Specify which map style to use
-                center: [-4.685103173259,42.0046502], // Specify the starting position [lng, lat]
-                zoom: 6.5 // Specify the starting zoom
-              });
+             <div id='map'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibGF1cmFuYXZhcnJvIiwiYSI6ImNrZzBwNzA1eDBqYzUzMnFpemRzZGc1c3MifQ.ftDfRnXbx1RzDaZAOkC3tg'; // replace this with your access token
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/lauranavarro/ckh108p4g098f19ju8b3fuam5', // replace this with your style URL
+      center: [-0.843748, 39.561557],
+      zoom: 5.2
+    });
 
 
-              map.on('load', function() {
+    map.on('load', function() {
 
-              // Create a popup, but don't add it to the map yet.
-                  var popup = new mapboxgl.Popup({
-                    className: "apple-popup", 
-                    closeButton: false,
-                    closeOnClick: false
-                  });
+  // Create a popup, but don't add it to the map yet.
+      var popup = new mapboxgl.Popup({
+        className: "apple-popup", 
+        closeButton: false,
+        closeOnClick: false
+      });
 
-                  function showPopup(e) {
-                // Updates the cursor to a hand (interactivity)
-                    map.getCanvas().style.cursor = 'pointer';
+      function showPopup(e) {
+    // Updates the cursor to a hand (interactivity)
+        map.getCanvas().style.cursor = 'pointer';
 
-                // Show the popup at the coordinates with some data
-                    popup.setLngLat(e.lngLat)
-                      .setHTML(checkEmpty('<h5>' + e.features[0].properties.ayuntamiento + '</h5>' + '<p>' + "Dedicación:" + " " + '<strong>' + e.features[0].properties.dedicacion + '</strong>' + '<br>' + "Salario anual:"+ " " + e.features[0].properties.salario + "€" + '<br>' + "Población:"+ " " +e.features[0].properties.poblacion + " habitantes" + '</p>'))
-                      .addTo(map);
-                  }
+    // Show the popup at the coordinates with some data
+        popup.setLngLat(e.features[0].geometry.coordinates)
+          .setHTML(checkEmpty('<h2>' + e.features[0].properties.nombre + '</h2>' + '<p style="font-size:16px;color:yellow">' + e.features[0].properties.material + '</p style="font-size:9px">'+ e.features[0].properties.descrip + '</p>'))
+          .addTo(map);
+      }
 
-                  function hidePopup() {
-                    map.getCanvas().style.cursor = '';
-                    popup.remove();
-                  }
+      function hidePopup() {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+      }
 
-                  function checkEmpty(info) {
-                    return (info) ? info : "No data";
-                  }
+      function checkEmpty(info) {
+        return (info) ? info : "No data";
+      }
 
-                  // CHANGE: Add layer names that need to be interactive
-                  map.on('mouseenter', 'municipios-salarios-sin-null-3lort7', showPopup);
-                  map.on('mouseleave', 'municipios-salarios-sin-null-3lort7', hidePopup);
-                  map.on('mouseenter', 'municipios-salarios-sin-null-3lort7', showPopup);
-                  map.on('mouseleave', 'municipios-salarios-sin-null-3lort7', hidePopup);
+      // CHANGE: Add layer names that need to be interactive
+      map.on('mouseenter', 'puntos-negros', showPopup);
+      map.on('mouseleave', 'puntos-negros', hidePopup);
 
-                });
+      map.on('mouseenter', 'puntos-negros', showPopup);
+      map.on('mouseleave', 'puntos-negros', hidePopup);
+    });
 
-                // Add the control to the map.
-                  map.addControl(
-                  new MapboxGeocoder({
-                  accessToken: mapboxgl.accessToken,
-                  mapboxgl: mapboxgl
-                  })
-                  );
-
-                  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-
-
-
-
-          </script>
-
+    </script>
 
 
 
