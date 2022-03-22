@@ -8,7 +8,7 @@
 
 
 
-  <title>Els bars prenen els carrers</title>
+  <title>Taller de Visualització de dades</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -26,6 +26,11 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  
+  <!-- Mapbox -->
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
  <style>
@@ -51,8 +56,8 @@
         border-top-color: yellow;
       }
     </style>
+  
 <body>
-   
   
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
@@ -169,7 +174,7 @@
          
             
       </div>
-             <div id='map'></div>
+
     <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoibGF1cmFuYXZhcnJvIiwiYSI6ImNrZzBwNzA1eDBqYzUzMnFpemRzZGc1c3MifQ.ftDfRnXbx1RzDaZAOkC3tg'; // replace this with your access token
     var map = new mapboxgl.Map({
@@ -209,9 +214,6 @@
       }
 
       // CHANGE: Add layer names that need to be interactive
-      map.on('mouseenter', 'puntos-negros', showPopup);
-      map.on('mouseleave', 'puntos-negros', hidePopup);
-
       map.on('mouseenter', 'puntos-negros', showPopup);
       map.on('mouseleave', 'puntos-negros', hidePopup);
     });
